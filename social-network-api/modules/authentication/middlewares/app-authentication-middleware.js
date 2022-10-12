@@ -1,5 +1,3 @@
-'use strict';
-
 const AppAuthenticationMiddleware = {};
 
 AppAuthenticationMiddleware.AppAuth = (req, res, next) => {

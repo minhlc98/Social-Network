@@ -1,6 +1,5 @@
-'use strict';
-
 import mongoose from "mongoose";
+
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
@@ -17,7 +16,7 @@ const UserSchema = new Schema({
   is_activated: { type: Boolean, default: false },
   activate_code: { type: String, default: null },
   created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date, default: null }
+  updated_at: { type: Date, default: null },
 }, { versionKey: false });
 
 UserSchema.index({ username: 1 });

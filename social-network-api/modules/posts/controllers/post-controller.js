@@ -1,11 +1,10 @@
-'use strict';
-
 import mongoose from "mongoose";
+
 const PostModel = mongoose.model("Post");
 
 const PostControllers = {};
 
-PostControllers.get = async (req, res, next) => {
+PostControllers.get = async (req, res) => {
   if (!req.session.user) {
     return res.json([]);
   }
@@ -14,7 +13,7 @@ PostControllers.get = async (req, res, next) => {
   const posts = await PostModel.find({ created_by_user: user._id }).populate("created_by_user", "name avatar_url").sort({ created_at: -1 }).lean(true);
 
   return res.json(posts);
-}
+};
 
 PostControllers.create = async (req, res, next) => {
   try {
@@ -26,10 +25,12 @@ PostControllers.create = async (req, res, next) => {
       created_by_user: user._id
     });
 
-    await post.save();
+    const created_post = await post.save();
+
+    return res.json(created_post);
   } catch (e) {
     return next(e);
   }
-}
+};
 
 export default PostControllers;

@@ -1,12 +1,11 @@
-'use strict';
 import _ from "lodash";
 
 export default (io) => {
   io.use((socket, next) => {
-    const user = _.get(socket, 'request.session.user');
+    const user = _.get(socket, "request.session.user");
 
     if (!user) {
-      return next(new Error("unauthorized"))
+      return next(new Error("unauthorized"));
     }
 
     socket.user_id = user._id.toString();
@@ -22,6 +21,6 @@ export default (io) => {
         from: socket.user_id,
         to,
       });
-    })
+    });
   });
-}
+};

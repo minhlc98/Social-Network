@@ -1,8 +1,7 @@
-'use strict';
-
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
+
 const UserModel = mongoose.model("User");
 const UserControllers = {};
 
@@ -80,7 +79,7 @@ UserControllers.login = async (req, res, next) => {
   }
 };
 
-UserControllers.logout = async (req, res, next) => {
+UserControllers.logout = async (req, res) => {
   if (req.session.user) {
     req.session.destroy();
   }
