@@ -1,5 +1,6 @@
 'use strict';
 
+import http from "http";
 import glob from "glob";
 import cors from "cors";
 import express from "express";
@@ -7,7 +8,7 @@ import session from "express-session";
 import bodyParser from "body-parser";
 import MongoStore from "connect-mongo";
 import { Server } from "socket.io";
-import http from "http";
+import ErrorsHandlerMiddleware from '../modules/core/middlewares/errors-handler.middleware.js';
 
 function initServerRoute(app) {
   return new Promise((resolve) => {
@@ -77,7 +78,7 @@ function initSocket(io) {
 }
 
 function initErrorHandleMiddleware(app) {
-  app.use((err, req, res, next) => res.status(500).send());
+  app.use(ErrorsHandlerMiddleware);
 }
 
 const init = async function(db) {
