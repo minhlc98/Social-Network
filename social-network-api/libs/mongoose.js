@@ -4,6 +4,8 @@ import glob from "glob";
 import mongoose from "mongoose";
 import moment from "moment";
 
+import { ERR_CONNECT_MONGO_FAILED } from "../modules/core/libs/errors.lib.js";
+
 const connect = async () => {
   try {
     const connection_string = process.env.DB_CONNECTION_STRING || "mongodb://localhost:27017/social_network";
@@ -16,34 +18,34 @@ const connect = async () => {
     const now = () => moment().format('DD/MM/YYYY HH:mm:ss SSS');
 
     mongoose.connection.on("connecting", function() {
-      console.log(`[${now()}] connecting to MongoDB`);
+      console.log(`[MONGODB] [${now()}] connecting to MongoDB`);
     });
 
     mongoose.connection.on("connected", function() {
-      console.log(`[${now()}] connected to MongoDB`);
+      console.log(`[MONGODB] [${now()}] connected to MongoDB`);
     });
 
     mongoose.connection.on("open", function() {
-      console.log(`[${now()}] connection opened to MongoDB`);
+      console.log(`[MONGODB] [${now()}] connection opened to MongoDB`);
     });
 
     mongoose.connection.on("disconnecting", function() {
-      console.log(`[${now()}] disconnecting to MongoDB`);
+      console.log(`[MONGODB] [${now()}] disconnecting to MongoDB`);
     });
 
     mongoose.connection.on("disconnected", function() {
-      console.log(`[${now()}] disconnected to MongoDB`);
+      console.log(`[MONGODB] [${now()}] disconnected to MongoDB`);
     });
 
     mongoose.connection.on("reconnected", function() {
-      console.log(`[${now()}] reconnected to MongoDB`);
-    })
+      console.log(`[MONGODB] [${now()}] reconnected to MongoDB`);
+    });
 
     const db = await mongoose.connect(connection_string, options);
 
     return db;
   } catch (e) {
-    console.log(`Failed connect to Mongodb: ${JSON.stringify(e)}`);
+    throw new ERR_CONNECT_MONGO_FAILED(e);
   } 
 }
 
